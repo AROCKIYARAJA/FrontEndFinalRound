@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function UserAccount() {
 
     const [posts, setPosts] = useState([]);
+    const navigate = useNavigate();
 
     async function AllPosts() {
         try {
@@ -23,9 +24,17 @@ function UserAccount() {
         AllPosts()
     }, [])
 
+    function RemoveAccount() {
+        alert("Account Removed")
+        localStorage.clear()
+        navigate("/")
+        window.location.reload()
+    }
+
     return (
         <div>
             <Link to={"/PostCreateForm"} className='text-[2rem] px-4 fixed bottom-10 right-10 rounded-full bg-sky-600 text-white'>+</Link>
+            <button onClick={() => RemoveAccount()} className='text-[1.2rem] px-4 fixed bottom-10 left-10 rounded-full bg-red-600 text-white'>Logout</button>
             <div className="w-[1500px] mx-auto max-w-[95%] flex justify-center gap-7 flex-wrap mt-20">
                 {
                     posts && posts.length === 0 ? "Loading..." : posts && posts?.map((target, index) => <div key={"post" + index + 1} className='min-w-[300px] w-[450px] p-3 rounded-lg border border-gray-300 shadow-lg flex items-center h-fit flex-col gap-3'>
